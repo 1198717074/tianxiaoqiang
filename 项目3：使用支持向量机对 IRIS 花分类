@@ -1,0 +1,47 @@
+from sklearn import svm
+import numpy as np
+import scipy
+from sklearn import model_selection
+import matplotlib.pyplot as plt
+def iris_type(s):
+    it = {b'Iris-setosa': 0, b'Iris-versicolor': 1, b'Iris-virginica': 2}
+    return it[s]
+path ='iris.data.txt'  # 之前保存的文件路径
+data = np.loadtxt(path, dtype=float, delimiter=',', converters={4: iris_type})
+print(data)
+X, y = np.split(data, (4,), axis=1)
+x = X[:, 0:4]
+clf = svm.SVC(kernel='rbf',                      # 核函数
+               gamma=0.1,
+             decision_function_shape='ovo',     # one vs one 分类问题
+              C=0.8)
+clf.fit(x, y)
+
+#训练结果对照及准确率
+#print(clf.score(x, y))
+#y_hat=clf.predict(x)
+#y_1d=y.reshape((-1))
+#comp=zip(y_1d,y_hat)
+#print(list(comp))
+
+#构造二维数组并把输入记为二维数组第一个变量
+x=[[0,0,0,0],[0,0,0,0]]
+a=input()
+xlist=a.split(",")
+
+xlist = [float(xlist[i]) for i in range(len(xlist))] #for循环，把每个字符转成float值
+x[0]=xlist
+
+
+#输出结果
+y=clf.predict(x)
+print(y[0])
+
+
+if y[0]==0:
+  print("Iris-setosa")
+elif y[0]==1:
+  print("Iris-versicolor")
+else:
+  print("Iris-virginica")
+  
